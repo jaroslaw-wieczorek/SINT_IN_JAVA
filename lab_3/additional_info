@@ -1,0 +1,24 @@
+GET /abc/cde.jpg
+
+Content-Type: image/jpg
+
+probeContentType(...)
+
+GET /abc/d.jpg
+
+GET /abc/d.jpg
+
+HTTP /1.1/ Not Found 
+
+W javie są metody przeliczjące ścieżki getCanonicalPath.
+
+403 FORBIDEN w momencie kiedy Canoncal path nie jest w otrzymanym url'em
+
+Przeglądarka przeliczy nam to wcześniej i nie odstniemy 403 
+
+
+GET /abc/ 
+lista plików 
+
+
+

@@ -28,38 +28,42 @@ public class ProxyServer {
 
     }
 
-    private static void SetupHeaders(HttpURLConnection connection, Headers headers){
+    private static HttpURLConnection SetupHeaders(HttpURLConnection connection, Headers headers){
         /*
          * Method to setup headers
-         *
-         *
          *
          */
 
         for (String header_name : headers.keySet()){
             for (String header_value : headers.get(header_name))
             {
+                //if (!header_name.equals("Transfer-Encoding")) {
+
                 // put headers in connection
                 connection.addRequestProperty(header_name, header_value);
+
+                //}
             }
         }
+        return connection;
     }
 
-    private static void putNotNullRequestProperties(HttpURLConnection connection, Headers headers)
+    private static HttpURLConnection putNotNullRequestProperties(HttpURLConnection connection, Headers headers)
         /*
         * Method to
-        *
-        *
         *
         */
     {
         for (String header_name : headers.keySet())
         {
-            if (header_name != null)
+            if (header_name != null) //&& (!header_name.equals("Transfer-Encoding")))
             {
+
                 connection.getRequestProperties().put(header_name, headers.get(header_name));
+
             }
         }
+        return connection;
     }
 
 
@@ -69,7 +73,7 @@ public class ProxyServer {
             // Load data about requst
             URI uri = exchange.getRequestURI();
             Headers headers = exchange.getRequestHeaders();
-            //String method = exchange.getRequestMethod();
+            String method = exchange.getRequestMethod();
 
 
             URL url = new URL(uri.toString());
@@ -77,11 +81,9 @@ public class ProxyServer {
             // URL was created from uri (uri.toString) string to HttpURLConnection
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            // Setup got request headers
-            SetupHeaders(connection, headers);
 
             //Turn on follow redirects
-            connection.setInstanceFollowRedirects(true);
+            //connection.setInstanceFollowRedirects(true);
 
             //Setup allow users interactions
             connection.setAllowUserInteraction(true);
@@ -94,6 +96,10 @@ public class ProxyServer {
 
             //Turn off
             connection.setUseCaches(false);
+            connection.setRequestMethod(method);
+
+            // Setup got request headers
+            connection = SetupHeaders(connection, headers);
 
 
             if (exchange.getRequestHeaders().containsKey("Content-Length")) {
@@ -117,7 +123,7 @@ public class ProxyServer {
             Map<String, List<String>> responseHeaders = connection.getHeaderFields();
             System.out.println(responseHeaders);
 
-            putNotNullRequestProperties(connection, headers);
+            connection = putNotNullRequestProperties(connection, headers);
 
 
             // Setup response

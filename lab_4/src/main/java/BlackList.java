@@ -10,7 +10,7 @@ public class BlackList {
 
 
     public LinkedList<String> getBlackList(){
-        String blackListFile = "blacklist.txt";
+        String blackListFile = "czarna_lista.txt";
         String line;
         BufferedReader br;
 
@@ -30,4 +30,12 @@ public class BlackList {
         return  blackList;
     }
 
+    public boolean contains(String urlToCheck){
+        for (String url : blackList){
+            if (urlToCheck.contains(url)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

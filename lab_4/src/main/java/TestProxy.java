@@ -19,7 +19,6 @@ public class TestProxy {
 
     public static void main(String[] args) throws Exception {
 
-
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new RootHandler());
@@ -43,16 +42,21 @@ public class TestProxy {
                 blackList.getBlackList();
                 if (blackList.contains(url.toString()))
                 {
+                    byte[] info = "Fobridden 403".getBytes();
+
                     System.out.println("Fobridden URL - Nie przejdzeisz");
-                    exchange.sendResponseHeaders(403, -1);
+                    exchange.sendResponseHeaders(403, info.length);
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(info);
+                    os.close();
                 }
                 else {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     //set up connection properties
                     connection.setAllowUserInteraction(true);
-                    //connection.setDoInput(true);
-                    connection.setDoOutput(false);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
                     connection.setUseCaches(false);
                     connection.setInstanceFollowRedirects(false);
                     connection.setRequestMethod(method);
@@ -69,8 +73,13 @@ public class TestProxy {
                     byte[] requestBytes = new byte[0];
 
                     if (exchange.getRequestHeaders().containsKey("Content-Length")) {
-                        if (Integer.parseInt(exchange.getRequestHeaders().get("Content-Length").get(0)) >= 0) {
-                            IOUtils.copy(exchange.getRequestBody(), connection.getOutputStream());
+                        if ((Integer.parseInt(exchange.getRequestHeaders().get("Content-Length").get(0)))>=0) {
+                            InputStream is = exchange.getRequestBody();
+                            OutputStream os = connection.getOutputStream();
+                            requestBytes = IOUtils.toByteArray(is);
+                            os.write(requestBytes);
+                            is.close();
+                            os.close();
                         }
                     }
 
@@ -87,7 +96,7 @@ public class TestProxy {
                     for (String headerName : responseHeaders.keySet()) {
                         if (headerName != null) {
 
-                            exchange.getRequestHeaders().put(headerName, responseHeaders.get(headerName));
+                            //exchange.getRequestHeaders().put(headerName, responseHeaders.get(headerName));
                             exchange.getResponseHeaders().put(headerName, responseHeaders.get(headerName));
                             //exchange.getRequestHeaders().add(headerName, String.join(",", responseHeaders.get(headerName)));
                         }

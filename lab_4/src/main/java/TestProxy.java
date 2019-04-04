@@ -72,6 +72,10 @@ public class TestProxy {
                     }
                     byte[] requestBytes = new byte[0];
 
+                    //connecting
+                    connection.connect();
+                    System.out.println("Connecting...");
+
                     if (exchange.getRequestHeaders().containsKey("Content-Length")) {
                         if ((Integer.parseInt(exchange.getRequestHeaders().get("Content-Length").get(0)))>=0) {
                             InputStream is = exchange.getRequestBody();
@@ -82,11 +86,6 @@ public class TestProxy {
                             os.close();
                         }
                     }
-
-
-                    //connecting
-                    connection.connect();
-                    System.out.println("Connecting...");
 
                     //getting the response
                     //headers

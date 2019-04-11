@@ -41,7 +41,13 @@ public class DataBase {
         this.subjects.put(subject.getId(), subject);
     }
 
-
+//    public  Subject getSubject(int studentId, int subjectId)
+//    {
+//        Student student = students.get(studentId);
+//
+//        if (student != null)
+//            {
+//    }
 
     public Grade getGrade(int studentId, int gradeId) {
         Student student = students.get(studentId);

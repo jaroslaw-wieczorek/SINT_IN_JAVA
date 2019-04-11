@@ -1,6 +1,7 @@
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 @XmlRootElement(name="student")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -51,5 +52,13 @@ public class Student {
     public void setGrades(ArrayList<Grade> grades) { this.grades = grades; }
     public void deleteGrades() { this.grades.clear(); }
     public void deleteGrade(int gradeId) { this.grades.remove(gradeId); }
+
+//
+//    public ArrayList<Grade> getSubjects() {
+//
+//        for (Grade gr: grades) {
+//            Subject subject = (gr.getSubject().getId(), gr.getSubject());
+//        }
+//    }
 
 }

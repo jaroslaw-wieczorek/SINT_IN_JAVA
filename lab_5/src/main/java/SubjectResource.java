@@ -54,10 +54,9 @@ public class SubjectResource {
             subject.setProfessor(entity.getProfessor());
             modified = true;
         }
-        if (modified)
-            return Response.status(200).entity(entity).build();
-        else
-            return Response.status(304).entity(entity).build();
+        String str = "subjects/"+entity.getId()+"/";
+        Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
+        return res.status(200).entity(entity).build();
     }
 
     @POST

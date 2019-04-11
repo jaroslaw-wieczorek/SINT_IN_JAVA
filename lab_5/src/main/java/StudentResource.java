@@ -69,7 +69,12 @@ public class StudentResource {
         }
         if (entity.getName()!=null && entity.getSurname()!=null && entity.getBirthDate()!=null) {
             dataBase.addStudent(entity);
-            return Response.status(201).entity(entity).build();
+
+
+            String str = "students/"+entity.getIndex()+"/";
+            Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
+            return res.status(200).entity(entity).build();
+
         }
         return Response.status(400).build();
     }
@@ -85,9 +90,7 @@ public class StudentResource {
         return Response.status(200).build();
     }
 
-    
-}
 
-//mozna wylaczyc xmlelement z kolekcji ocen
+}
 
 

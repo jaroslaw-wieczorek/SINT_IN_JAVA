@@ -69,7 +69,10 @@ public class SubjectResource {
         }
         if (entity.getProfessor()!=null & entity.getName()!=null){
             dataBase.addSubject(entity);
-            return Response.status(201).entity(entity).build();
+
+            String str = "subjects/"+entity.getId()+"/";
+            Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
+            return res.status(201).entity(entity).build();
         }
         return Response.status(400).build();
     }

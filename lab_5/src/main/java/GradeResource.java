@@ -63,7 +63,9 @@ public class GradeResource {
             grade.setValue(entity.getValue());
             modified = true;
         }
-        return Response.status(200).entity(entity).build();
+        String str = "students/" + studentId + "/grades/" + gradeId;
+        Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
+        return res.status(200).entity(entity).build();
     }
 
     @POST

@@ -55,7 +55,10 @@ public class StudentResource {
             student.setBirthDate(entity.getBirthDate());
             modified = true;
         }
-        return Response.status(200).entity(entity).build();
+
+        String str = "students/"+ id +"/";
+        Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
+        return res.status(200).entity(entity).build();
     }
 
 
@@ -71,7 +74,7 @@ public class StudentResource {
             dataBase.addStudent(entity);
 
 
-            String str = "students/"+entity.getIndex()+"/";
+            String str = "students/"+ entity.getIndex() +"/";
             Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
             return res.status(200).entity(entity).build();
 

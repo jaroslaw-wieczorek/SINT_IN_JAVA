@@ -8,10 +8,12 @@ import java.util.Map;
 public class Student {
 
     public static int lastIndex = 0;
+    private static int indexdToSet = 0;
     public synchronized int generateIndex(){
         System.out.println("Generate student index" + lastIndex);
+        indexdToSet = lastIndex;
         lastIndex += 1;
-        return lastIndex;
+        return indexdToSet;
     }
 
     Student(){}

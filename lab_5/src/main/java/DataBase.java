@@ -59,14 +59,6 @@ public class DataBase {
     }
 
 
-//    public  Subject getSubject(int studentId, int subjectId)
-//    {
-//        Student student = students.get(studentId);
-//
-//        if (student != null)
-//            {
-//    }
-
     public Grade getGrade(int studentId, int gradeId) {
         Student student = students.get(studentId);
         if (student != null) {

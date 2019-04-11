@@ -87,6 +87,7 @@ public class StudentResource {
         }
         Student student = dataBase.getStudents().get(id);
         student.deleteGrades();
+        dataBase.removeStudent(student);
         return Response.status(200).build();
     }
 

@@ -42,8 +42,8 @@ public class SubjectResource {
     public Response putSubject(Subject entity, @PathParam("id") int id) {
         Subject subject = dataBase.getSubjects().get(id);
         if (subject == null){
-            //return Response.status(404).build();
-            return postSubject(entity);
+            return Response.status(404).build();
+            //return postSubject(entity);
         }
         boolean modified = false;
         if (entity.getName()!=null){

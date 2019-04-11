@@ -3,7 +3,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 
 @Path("subjects")
@@ -73,15 +75,19 @@ public class SubjectResource {
         return Response.status(400).build();
     }
 
+
     @DELETE
     @Path("{id}")
-    public Response deleteSubject(@PathParam("id") int id){
-        if(!dataBase.getSubjects().containsKey(id))
-            return Response.status(404).build();
-
-        dataBase.getSubjects().remove(id);
+    public Response deleteStudent(@PathParam("id") int id){
+        if (!dataBase.getStudents().containsKey(id)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Student student = dataBase.getStudents().get(id);
+        student.deleteGrades();
         return Response.status(200).build();
     }
+
+
 
 }
 

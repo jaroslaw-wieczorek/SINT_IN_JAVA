@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
 
 
+
 @Path("students")
 @XmlRootElement(name="students")
 public class StudentResource {
@@ -65,11 +66,6 @@ public class StudentResource {
         if (dataBase.getStudents().containsKey(entity.getIndex())) {
            entity.setIndex(entity.generateIndex());
 
-//            System.out.println(entity.getName());
-//            System.out.println(entity.getGrades());
-//            System.out.println(entity.getIndex());
-//            System.out.println(entity.getSurname());
-//            return Response.status(Response.Status.FORBIDDEN).build();
         }
         if (entity.getName()!=null && entity.getSurname()!=null && entity.getBirthDate()!=null) {
             dataBase.addStudent(entity);
@@ -81,14 +77,15 @@ public class StudentResource {
     @DELETE
     @Path("{id}")
     public Response deleteStudent(@PathParam("id") int id){
-        if (!dataBase.getStudents().containsKey(id))
+        if (!dataBase.getStudents().containsKey(id)) {
             return Response.status(Response.Status.NOT_FOUND).build();
-
-        dataBase.getStudents().remove(id);
+        }
+        Student student = dataBase.getStudents().get(id);
+        student.deleteGrades();
         return Response.status(200).build();
     }
 
-
+    
 }
 
 //mozna wylaczyc xmlelement z kolekcji ocen

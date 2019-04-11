@@ -3,6 +3,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -59,29 +61,37 @@ public class GradeResource {
             grade.setValue(entity.getValue());
             modified = true;
         }
-        if (modified)
-            return Response.status(200).entity(entity).build();
-        return Response.status(304).build();
+        return Response.status(200).entity(entity).build();
     }
 
     @POST
-    @Path("{gradeId}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response postGrade(Grade entity, @PathParam("studentId") int studentId){
 
+//        Grade grade1 = new Grade(5f, new Date(), subject1);
+//        ArrayList<Grade> gradesS1 = new ArrayList<Grade>();
+//        gradesS1.add(grade1);
+//        student1.setGrades(gradesS1);
         if (!dataBase.getSubjects().containsKey(entity.getSubject())
             & entity.getSubject()!=null
             & entity.getValue()!=null
-            & entity.getDate()!=null
-            & entity.getId()!=null) {
+            & entity.getDate()!=null) {
+                entity.setId(entity.generateId());
                 Student student = dataBase.getStudents().get(studentId);
                 if (student != null) {
-                    Grade grade = student.getGrades().get(entity.getId());
-                    if (grade != null)
-                        return Response.status(403).build();
-                    student.getGrades().add(entity);
-                    return Response.status(201).entity(entity).build();
+                    ArrayList<Grade> grades = student.getGrades();
+                    if (grades != null) {
+                        for (Grade gr: grades)
+                        {
+                            if (gr.getId() == entity.getId()) {
+                                return Response.status(400).build();
+                            }
+
+                        }
+                        student.getGrades().add(entity);
+                        return Response.status(201).entity(entity).build();
+                    }
                 }
         }
         return Response.status(400).build();

@@ -52,7 +52,12 @@ public class Student {
     private ArrayList<Grade> grades;
     public ArrayList<Grade> getGrades() { return grades; }
     public void setGrades(ArrayList<Grade> grades) { this.grades = grades; }
-    public void deleteGrades() { this.grades.clear(); }
+    public void deleteGrades() {
+        if (this.grades != null){
+            this.grades.clear();
+        }
+        }
+
     public void deleteGrade(int gradeId) { this.grades.remove(gradeId); }
 
 //

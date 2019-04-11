@@ -69,13 +69,13 @@ public class GradeResource {
     }
 
     @POST
-    @Path("{subjectId}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 
-    public Response postGrade(Grade entity, @PathParam("studentId") int studentId,
-                              @PathParam("subjectId") int subjectId) {
+    public Response postGrade(Grade entity, @PathParam("studentId") int studentId) {
 
+        int subjectId = entity.getSubject().getId();
+        System.out.println(subjectId);
         if (dataBase.getSubjects().get(subjectId) == null) {
             return Response.status(400).build();
 
@@ -96,7 +96,7 @@ public class GradeResource {
                     grades.add(entity);
                     String str = "students/" + studentId + "/grades/" + entity.getId();
                     Response.ResponseBuilder res = Response.ok(entity).header("Location", str);
-                    return res.status(200).entity(entity).build();
+                    return res.status(201).entity(entity).build();
                 }
             }
             return Response.status(400).build();

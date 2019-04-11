@@ -70,7 +70,7 @@ public class GradeResource {
     @Path("{subjectId}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    
+
     public Response postGrade(Grade entity, @PathParam("studentId") int studentId,
                               @PathParam("subjectId") int subjectId) {
 

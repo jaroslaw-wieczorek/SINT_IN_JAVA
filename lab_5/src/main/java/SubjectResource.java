@@ -77,16 +77,20 @@ public class SubjectResource {
 
     @DELETE
     @Path("{id}")
-    public Response deleteStudent(@PathParam("id") int id){
-        if (!dataBase.getStudents().containsKey(id)) {
+    public Response deleteSubject(@PathParam("id") int id){
+        if (!dataBase.getSubjects().containsKey(id)) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        Student student = dataBase.getStudents().get(id);
-        student.deleteGrades();
-        return Response.status(200).build();
+        Map<Integer, Subject> subjects = dataBase.getSubjects();
+        if (subjects != null){
+            Subject subject = subjects.get(id);
+            if (subject != null){
+                dataBase.removeSubject(subject);
+                return Response.status(200).build();
+            }
+        }
+        return Response.status(400).build();
     }
-
-
 
 }
 

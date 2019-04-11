@@ -40,6 +40,24 @@ public class DataBase {
     public void addSubject(Subject subject) {
         this.subjects.put(subject.getId(), subject);
     }
+    public void removeSubject(Subject subject) {
+        for (Student st: this.students.values())
+        {
+           ArrayList<Grade> grades =  st.getGrades();
+            ArrayList<Grade> grades_for_delete = new ArrayList<>();
+            for (Grade gr: grades) {
+                if(gr.getSubject().getId() == subject.getId())
+                {
+                    grades_for_delete.add(gr);
+                }
+            }
+            for (Grade gr: grades_for_delete){
+                grades.remove(gr);
+            }
+        }
+        subjects.remove(subject.getId());
+    }
+
 
 //    public  Subject getSubject(int studentId, int subjectId)
 //    {
